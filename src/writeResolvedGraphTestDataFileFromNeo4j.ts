@@ -9,7 +9,7 @@ export const writeResolvedGraphTestDataFileFromNeo4j = (
 ) =>
   getResultFromNeo4j().then((result) => {
     const interfaces = getInterfacesFromNeo4jResult(result, {
-      destructureNumbersObject: true,
+      destructureNumberObjects: true,
       startDepth: 1,
       additionalProps: { nodes: { type: "string" }, edges: { type: "string" } },
     });
@@ -17,7 +17,7 @@ export const writeResolvedGraphTestDataFileFromNeo4j = (
       nameOfLinkTypePropInData: "type",
       nameOfNodeLabelsPropInData: "type",
       extractFirstNodeLabel: true,
-      destructureNumbersObject: true,
+      destructureNumberObjects: true,
     });
 
     const template = `import { ResolvedGraph } from 'resolved-graph'

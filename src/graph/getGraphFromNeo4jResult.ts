@@ -1,22 +1,23 @@
 import { QueryResult } from "neo4j-driver";
+import { Graph } from "resolved-graph";
 
 export interface Options {
   nameOfLinkTypePropInData: string;
   nameOfNodeLabelsPropInData: string;
   extractFirstNodeLabel: boolean;
-  destructureNumbersObject: boolean;
+  destructureNumberObjects: boolean;
 }
 
 export const getGraphFromNeo4jResult = (
   neo4jResult: QueryResult,
   options?: Partial<Options>
-) => {
+): Graph => {
   const _options: Options = Object.assign(
     {
       nameOfLinkTypePropInData: "_neo4j_type",
       nameOfNodeLabelsPropInData: "_neo4j_labels",
       extractFirstNodeLabel: false,
-      destructureNumbersObject: false,
+      destructureNumberObjects: false,
     },
     options || {}
   );
@@ -33,7 +34,7 @@ export const getGraphFromNeo4jResult = (
         const link = getLinkFromNeoEdge(
           entity,
           _options.nameOfLinkTypePropInData,
-          _options.destructureNumbersObject
+          _options.destructureNumberObjects
         );
         result.links[link.id] = link;
       } else {
@@ -41,7 +42,7 @@ export const getGraphFromNeo4jResult = (
           entity,
           _options.nameOfNodeLabelsPropInData,
           _options.extractFirstNodeLabel,
-          _options.destructureNumbersObject
+          _options.destructureNumberObjects
         );
         result.nodes[node.id] = node;
       }
@@ -53,9 +54,9 @@ export const getGraphFromNeo4jResult = (
   };
 };
 
-const getDataFromNeoProps = (neoProp, destructureNumbersObject) => {
+const getDataFromNeoProps = (neoProp, destructureNumberObjects) => {
   if (
-    destructureNumbersObject &&
+    destructureNumberObjects &&
     neoProp.low !== undefined &&
     neoProp.high !== undefined &&
     typeof neoProp.low === "number" &&
@@ -66,13 +67,13 @@ const getDataFromNeoProps = (neoProp, destructureNumbersObject) => {
   } else if (typeof neoProp === "object") {
     if (Array.isArray(neoProp)) {
       return neoProp.map((v) =>
-        getDataFromNeoProps(v, destructureNumbersObject)
+        getDataFromNeoProps(v, destructureNumberObjects)
       );
     } else {
       return Object.keys(neoProp).reduce(
         (acc, curr) => ({
           ...acc,
-          [curr]: getDataFromNeoProps(neoProp[curr], destructureNumbersObject),
+          [curr]: getDataFromNeoProps(neoProp[curr], destructureNumberObjects),
         }),
         {}
       );
@@ -86,7 +87,7 @@ const getNodeFromNeoNode = (
   neoNode,
   nameOfLabelsPropInData,
   extractFirstLabel,
-  destructureNumbersObject
+  destructureNumberObjects
 ) => {
   return {
     id: (neoNode.identity.high + neoNode.identity.low).toString(),
@@ -95,16 +96,16 @@ const getNodeFromNeoNode = (
           [nameOfLabelsPropInData]: extractFirstLabel
             ? neoNode.labels[0]
             : neoNode.labels,
-          ...getDataFromNeoProps(neoNode.properties, destructureNumbersObject),
+          ...getDataFromNeoProps(neoNode.properties, destructureNumberObjects),
         }
-      : getDataFromNeoProps(neoNode.properties, destructureNumbersObject),
+      : getDataFromNeoProps(neoNode.properties, destructureNumberObjects),
   };
 };
 
 const getLinkFromNeoEdge = (
   neoEdge,
   nameOfTypePropInData,
-  destructureNumbersObject
+  destructureNumberObjects
 ) => {
   return {
     id: (neoEdge.identity.high + neoEdge.identity.low).toString(),
@@ -113,8 +114,8 @@ const getLinkFromNeoEdge = (
     data: nameOfTypePropInData
       ? {
           [nameOfTypePropInData]: neoEdge.type,
-          ...getDataFromNeoProps(neoEdge.properties, destructureNumbersObject),
+          ...getDataFromNeoProps(neoEdge.properties, destructureNumberObjects),
         }
-      : getDataFromNeoProps(neoEdge.properties, destructureNumbersObject),
+      : getDataFromNeoProps(neoEdge.properties, destructureNumberObjects),
   };
 };

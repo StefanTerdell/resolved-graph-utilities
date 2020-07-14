@@ -2,21 +2,21 @@ import { mutateDeepLeft } from "../utils/mutateDeepLeft";
 import { QueryResult } from "neo4j-driver";
 
 export interface Options {
-  destructureNumbersObject: boolean;
+  destructureNumberObjects: boolean;
   startDepth: number;
   additionalProps: {
-    nodes: { [propertyName: string]: string };
-    edges: { [propertyName: string]: string };
+    nodes?: { [propertyName: string]: string };
+    edges?: { [propertyName: string]: string };
   };
 }
 
 export const getInterfacesFromNeo4jResult = (
   result: QueryResult,
   options?: Partial<Options>
-) => {
+): { [name: string]: { [property: string]: string | object } } => {
   const _options = Object.assign(
     {
-      destructureNumbersObject: false,
+      destructureNumberObjects: false,
       startDepth: 0,
       additionalProps: { nodes: {}, edges: {} },
     },
@@ -37,7 +37,7 @@ export const getInterfacesFromNeo4jResult = (
             ..._options.additionalProps[typeKey],
             ...getPropertyType(
               entity.properties,
-              _options.destructureNumbersObject
+              _options.destructureNumberObjects
             ),
           },
         },
@@ -48,10 +48,10 @@ export const getInterfacesFromNeo4jResult = (
   return dictionary;
 };
 
-const getPropertyType = (prop, destructureNumbersObject: boolean) => {
+const getPropertyType = (prop, destructureNumberObjects: boolean) => {
   if (typeof prop === "object") {
     if (
-      destructureNumbersObject &&
+      destructureNumberObjects &&
       Object.keys(prop).length === 2 &&
       prop.hasOwnProperty("high") &&
       prop.hasOwnProperty("low") &&
@@ -60,12 +60,12 @@ const getPropertyType = (prop, destructureNumbersObject: boolean) => {
     ) {
       return "number";
     } else if (Array.isArray(prop)) {
-      return `${getPropertyType(prop[0], destructureNumbersObject)}[]`;
+      return `${getPropertyType(prop[0], destructureNumberObjects)}[]`;
     } else {
       return Object.keys(prop).reduce(
         (acc, curr) => ({
           ...acc,
-          [curr]: getPropertyType(prop[curr], destructureNumbersObject),
+          [curr]: getPropertyType(prop[curr], destructureNumberObjects),
         }),
         {}
       );

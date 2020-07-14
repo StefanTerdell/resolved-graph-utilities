@@ -1,0 +1,271 @@
+{
+  "nodes": [
+    {
+      "id": "53",
+      "data": {
+        "_neo4j_labels": ["property"],
+        "name": "Number prop",
+        "uuid": "m10"
+      }
+    },
+    {
+      "id": "112",
+      "data": {
+        "_neo4j_labels": ["scalar"],
+        "name": "Number",
+        "identifier": "number",
+        "uuid": "m11",
+        "faker": "{{random.number}}"
+      }
+    },
+    {
+      "id": "117",
+      "data": {
+        "_neo4j_labels": ["component"],
+        "width": 4,
+        "name": "Bold text",
+        "react": "(props, key) => (<b key={key}>{key}: {props}</b>)",
+        "type": "output",
+        "uuid": "m12",
+        "height": 3
+      }
+    },
+    {
+      "id": "119",
+      "data": {
+        "_neo4j_labels": ["property"],
+        "name": "Number prop in custom class",
+        "uuid": "m13"
+      }
+    },
+    {
+      "id": "120",
+      "data": {
+        "_neo4j_labels": ["component"],
+        "width": 4,
+        "name": "Number input",
+        "react": "(props, key) => (<input key={key} type=\"number\" />)",
+        "type": "input",
+        "uuid": "m14",
+        "height": 3
+      }
+    },
+    {
+      "id": "131",
+      "data": {
+        "_neo4j_labels": ["page"],
+        "name": "My page",
+        "layoutData": "{\"main\":[{\"w\":1,\"h\":1,\"x\":2,\"y\":1,\"i\":\"m3\",\"moved\":false,\"static\":false},{\"w\":4,\"h\":3,\"x\":4,\"y\":1,\"i\":\"m10\",\"moved\":false,\"static\":false}]}",
+        "uuid": "m0"
+      }
+    },
+    {
+      "id": "134",
+      "data": {
+        "_neo4j_labels": ["readmodel"],
+        "name": "Readmodel for Agr. A",
+        "uuid": "m1"
+      }
+    },
+    {
+      "id": "143",
+      "data": {
+        "_neo4j_labels": ["aggregate"],
+        "name": "Agr. A",
+        "uuid": "m2"
+      }
+    },
+    {
+      "id": "144",
+      "data": {
+        "_neo4j_labels": ["property"],
+        "name": "Custom Class Property",
+        "uuid": "m3"
+      }
+    },
+    {
+      "id": "160",
+      "data": {
+        "_neo4j_labels": ["class"],
+        "name": "Custom Class",
+        "uuid": "m4"
+      }
+    },
+    {
+      "id": "166",
+      "data": {
+        "_neo4j_labels": ["property"],
+        "name": "String Prop",
+        "uuid": "m5"
+      }
+    },
+    {
+      "id": "167",
+      "data": {
+        "_neo4j_labels": ["scalar"],
+        "name": "Text",
+        "identifier": "string",
+        "uuid": "m6",
+        "faker": "{{name.lastName}}"
+      }
+    },
+    {
+      "id": "168",
+      "data": {
+        "_neo4j_labels": ["component"],
+        "width": 4,
+        "name": "Paragraph",
+        "react": "(props, key) => (<p key={key}>{key}: {props}</p>)",
+        "type": "output",
+        "uuid": "m7",
+        "height": 2
+      }
+    },
+    {
+      "id": "169",
+      "data": {
+        "_neo4j_labels": ["component"],
+        "width": 4,
+        "name": "Text field",
+        "react": "(props, key) => (<input key={key} type=\"text\" placeholder={`${key}: ${props}`} />)",
+        "type": "input",
+        "uuid": "m8",
+        "height": 2
+      }
+    },
+    {
+      "id": "170",
+      "data": {
+        "_neo4j_labels": ["component"],
+        "width": 6,
+        "name": "Custom Class output component",
+        "react": "(props, key) => (<div key={key}>{key}: Text: {props.m5}, Number:{props.m13}</div>)",
+        "type": "output",
+        "uuid": "m9",
+        "height": 3
+      }
+    }
+  ],
+  "links": [
+    {
+      "id": "81",
+      "from": "53",
+      "end": "53",
+      "data": {
+        "_neo4j_type": "PAGEBUILDER_DAG"
+      }
+    },
+    {
+      "id": "85",
+      "from": "112",
+      "end": "112",
+      "data": {
+        "_neo4j_type": "PAGEBUILDER_DAG"
+      }
+    },
+    {
+      "id": "86",
+      "from": "160",
+      "end": "160",
+      "data": {
+        "_neo4j_type": "PAGEBUILDER_DAG"
+      }
+    },
+    {
+      "id": "114",
+      "from": "119",
+      "end": "119",
+      "data": {
+        "_neo4j_type": "PAGEBUILDER_DAG"
+      }
+    },
+    {
+      "id": "123",
+      "from": "112",
+      "end": "112",
+      "data": {
+        "_neo4j_type": "PAGEBUILDER_DAG"
+      }
+    },
+    {
+      "id": "149",
+      "from": "131",
+      "end": "131",
+      "data": {
+        "_neo4j_type": "PAGEBUILDER_DAG"
+      }
+    },
+    {
+      "id": "182",
+      "from": "134",
+      "end": "134",
+      "data": {
+        "_neo4j_type": "PAGEBUILDER_DAG"
+      }
+    },
+    {
+      "id": "183",
+      "from": "143",
+      "end": "143",
+      "data": {
+        "_neo4j_type": "PAGEBUILDER_DAG"
+      }
+    },
+    {
+      "id": "184",
+      "from": "144",
+      "end": "144",
+      "data": {
+        "_neo4j_type": "PAGEBUILDER_DAG"
+      }
+    },
+    {
+      "id": "185",
+      "from": "160",
+      "end": "160",
+      "data": {
+        "_neo4j_type": "PAGEBUILDER_DAG"
+      }
+    },
+    {
+      "id": "191",
+      "from": "166",
+      "end": "166",
+      "data": {
+        "_neo4j_type": "PAGEBUILDER_DAG"
+      }
+    },
+    {
+      "id": "192",
+      "from": "167",
+      "end": "167",
+      "data": {
+        "_neo4j_type": "PAGEBUILDER_DAG"
+      }
+    },
+    {
+      "id": "193",
+      "from": "167",
+      "end": "167",
+      "data": {
+        "_neo4j_type": "PAGEBUILDER_DAG"
+      }
+    },
+    {
+      "id": "194",
+      "from": "160",
+      "end": "160",
+      "data": {
+        "_neo4j_type": "PAGEBUILDER_DAG"
+      }
+    },
+    {
+      "id": "195",
+      "from": "143",
+      "end": "143",
+      "data": {
+        "_neo4j_type": "PAGEBUILDER_DAG"
+      }
+    }
+  ]
+}

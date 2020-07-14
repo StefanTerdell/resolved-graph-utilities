@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "target": "ES2019",
+    "declaration": true,
+    "module": "commonjs"
+  },
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "results"]
+}

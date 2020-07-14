@@ -14,10 +14,3 @@ export const writeGraphFileFromNeo4j = (options?: Partial<Options>) => {
     writeFileSync(_options.fileName, JSON.stringify(graph, null, 2))
   );
 };
-
-writeGraphFileFromNeo4j({
-  fileName: "Movies.json",
-  nameOfLinkTypePropInData: "type",
-  nameOfNodeLabelsPropInData: "type",
-  extractFirstNodeLabel: true,
-});

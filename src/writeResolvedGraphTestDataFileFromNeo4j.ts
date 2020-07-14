@@ -39,5 +39,3 @@ export default function() {
 
     writeFileSync(fileName, template);
   });
-
-writeResolvedGraphTestDataFileFromNeo4j();

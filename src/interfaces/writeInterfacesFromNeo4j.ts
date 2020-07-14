@@ -18,5 +18,3 @@ export const writeGraphFileFromNeo4j = (options?: Partial<Options>) => {
     writeFileSync(_options.fileName, templateInterfacesFromDictionary(result))
   );
 };
-
-writeGraphFileFromNeo4j();

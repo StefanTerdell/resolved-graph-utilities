@@ -4,10 +4,12 @@ import { QueryResult } from "neo4j-driver";
 export interface Options {
   destructureNumberObjects: boolean;
   startDepth: number;
-  additionalProps: {
-    nodes?: { [propertyName: string]: string };
-    edges?: { [propertyName: string]: string };
-  };
+  nameOfLinkTypePropInData?: string;
+  nameOfNodeLabelsPropInData?: string;
+  // additionalProps: {
+  //   nodes?: { [propertyName: string]: string };
+  //   edges?: { [propertyName: string]: string };
+  // };
 }
 
 export const getInterfacesFromNeo4jResult = (
@@ -18,7 +20,9 @@ export const getInterfacesFromNeo4jResult = (
     {
       destructureNumberObjects: false,
       startDepth: 0,
-      additionalProps: { nodes: {}, edges: {} },
+      nameOfLinkTypePropInData: undefined,
+      nameOfNodeLabelsPropInData: undefined,
+      // additionalProps: { nodes: {}, edges: {} },
     },
     options || {}
   );
@@ -28,18 +32,32 @@ export const getInterfacesFromNeo4jResult = (
     for (const key of record.keys) {
       const entity = record.get(key);
       const typeKey = entity.type === undefined ? "nodes" : "edges";
+
       const name =
-        entity.type || (entity.labels && entity.labels[0]) || `unknown${++i}`;
+        entity.type ||
+        (entity.labels && entity.labels.length && entity.labels[0]) ||
+        `unknown${++i}`;
+
+      const result = getPropertyType(
+        entity.properties,
+        _options.destructureNumberObjects
+      );
+
+      if (
+        entity.labels &&
+        entity.labels.length &&
+        _options.nameOfNodeLabelsPropInData
+      )
+        result[_options.nameOfNodeLabelsPropInData] = entity.labels
+          .map((l) => `'${l}'`)
+          .join(" | ");
+
+      if (entity.type && _options.nameOfLinkTypePropInData)
+        result[_options.nameOfLinkTypePropInData] = `'${entity.type}'`;
 
       mutateDeepLeft(dictionary, {
         [typeKey]: {
-          [name]: {
-            ..._options.additionalProps[typeKey],
-            ...getPropertyType(
-              entity.properties,
-              _options.destructureNumberObjects
-            ),
-          },
+          [name]: result,
         },
       });
     }

@@ -11,7 +11,8 @@ export const writeResolvedGraphTestDataFileFromNeo4j = (
     const interfaces = getInterfacesFromNeo4jResult(result, {
       destructureNumberObjects: true,
       startDepth: 1,
-      additionalProps: { nodes: { type: "string" }, edges: { type: "string" } },
+      nameOfLinkTypePropInData: "type",
+      nameOfNodeLabelsPropInData: "type",
     });
     const graph = getGraphFromNeo4jResult(result, {
       nameOfLinkTypePropInData: "type",
@@ -39,3 +40,5 @@ export default function() {
 
     writeFileSync(fileName, template);
   });
+
+writeResolvedGraphTestDataFileFromNeo4j();
